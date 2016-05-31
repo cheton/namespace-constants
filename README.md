@@ -15,7 +15,7 @@ npm install --save namespace-constants
 ```js
 import constants from 'namespace-constants';
 
-export default constants([
+module.exports = constants([
     'ADD_TODO',
     'REMOVE_TODO',
     'TOGGLE_TODO'
@@ -31,7 +31,7 @@ export default constants([
 ```js
 import constants from 'namespace-constants';
 
-export default constants('todos', [
+module.exports = constants('todos', [
     'ADD_TODO',
     'REMOVE_TODO',
     'TOGGLE_TODO'
@@ -45,7 +45,7 @@ export default constants('todos', [
 
 You can pass custom separator as below:
 ```js
-export default constants('todos', [
+module.exports = constants('todos', [
     'ADD_TODO',
     'REMOVE_TODO',
     'TOGGLE_TODO'
