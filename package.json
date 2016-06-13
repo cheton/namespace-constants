@@ -9,7 +9,7 @@
     "build": "babel --out-dir ./lib ./src",
     "eslint": "eslint src",
     "test": "./babel-tap --coverage test/*.js",
-    "coveralls": "./babel-tap --coverage --coverage-report=text-lcov test/*.js | node_modules/.bin/coveralls",
+    "coveralls": "./babel-tap --coverage --coverage-report=text-lcov test/*.js | node_modules/.bin/coveralls"
   },
   "author": "Cheton Wu <cheton@gmail.com>",
   "license": "MIT",
