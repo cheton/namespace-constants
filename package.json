@@ -7,8 +7,9 @@
   "scripts": {
     "prepublish": "npm run eslint && npm test && npm run build",
     "build": "babel --out-dir ./lib ./src",
+    "eslint": "eslint src",
     "test": "./babel-tap --coverage test/*.js",
-    "eslint": "eslint src"
+    "coveralls": "./babel-tap --coverage --coverage-report=text-lcov test/*.js | node_modules/.bin/coveralls",
   },
   "author": "Cheton Wu <cheton@gmail.com>",
   "license": "MIT",
