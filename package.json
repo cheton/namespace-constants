@@ -4,6 +4,9 @@
   "description": "Add namespace to Redux action type constants without name conflicts.",
   "homepage": "https://github.com/cheton/namespace-constants",
   "main": "lib/index.js",
+  "files": [
+    "lib"
+  ],
   "scripts": {
     "prepublish": "npm run eslint && npm test && npm run build",
     "build": "babel --out-dir ./lib ./src",
