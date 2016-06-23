@@ -1,6 +1,6 @@
 # namespace-constants [![build status](https://travis-ci.org/cheton/namespace-constants.svg?branch=master)](https://travis-ci.org/cheton/namespace-constants) [![Coverage Status](https://coveralls.io/repos/github/cheton/namespace-constants/badge.svg?branch=master)](https://coveralls.io/github/cheton/namespace-constants?branch=master)
 
-[![NPM](https://nodei.co/npm/namespace-constants.png?downloads=true&stars=true)](https://nodei.co/npm/namespace-constants/)
+[![NPM](https://nodei.co/npm/namespace-constants.png?downloads=true&stars=true)](https://www.npmjs.com/package/namespace-constants)
 
 Add namespace to Redux action type constants without name conflicts.
 
