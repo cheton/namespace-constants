@@ -80,6 +80,4 @@ module.exports = constants('todos', [
 
 ## License
 
-Copyright (c) 2016 Cheton Wu
-
-Licensed under the [MIT License](LICENSE).
+MIT
