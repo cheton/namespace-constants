@@ -1,5 +1,6 @@
 const defaultOptions = {
-    separator: ':'
+    separator: ':',
+    transform: v => v
 };
 
 const constants = (namespace = '', constants = [], options = defaultOptions) => {
@@ -9,12 +10,14 @@ const constants = (namespace = '', constants = [], options = defaultOptions) => 
     }
 
     options.separator = options.separator || defaultOptions.separator;
+    options.transform = options.transform || defaultOptions.transform;
 
     // Prevent new properties from being added to it
     return Object.freeze(constants.reduce((memo, constant) => {
+        const transformedConstant = options.transform(constant)
         return {
             ...memo,
-            [constant]: namespace ? `${namespace}${options.separator}${constant}` : constant
+            [transformedConstant]: namespace ? `${namespace}${options.separator}${transformedConstant}` : transformedConstant
         };
     }, {}));
 };

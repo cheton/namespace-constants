@@ -58,6 +58,26 @@ module.exports = constants('todos', [
 // }
 ```
 
+#### Transform constants
+You can pass a custom transform function as well:
+```js
+module.exports = constants('todos', [
+    'add todo',
+    'remove todo',
+    'toggle todo'
+], {
+    separator: '/',
+    transform: function (v) {
+        return v.replace(/\ /g, '_').toUpperCase();
+    }
+});
+// {
+//   'ADD_TODO': 'todos/ADD_TODO',
+//   'REMOVE_TODO': 'todos/REMOVE_TODO'
+//   'TOGGLE_TODO': 'todos/TOGGLE_TODO'
+// }
+```
+
 ## License
 
 Copyright (c) 2016 Cheton Wu
