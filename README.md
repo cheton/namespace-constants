@@ -12,11 +12,16 @@ npm install --save namespace-constants
 
 ## Examples
 
-#### Global Constants
+### Global Constants
+
 ```js
 import constants from 'namespace-constants';
 
-module.exports = constants([
+export const {
+    ADD_TODO,
+    REMOVE_TODO,
+    TOGGLE_TODO
+} = constants([
     'ADD_TODO',
     'REMOVE_TODO',
     'TOGGLE_TODO'
@@ -28,53 +33,68 @@ module.exports = constants([
 // }
 ```
 
-#### Namespace Constants
+### Namespace Constants
+
 ```js
 import constants from 'namespace-constants';
 
-module.exports = constants('todos', [
+export const {
+    ADD_TODO,
+    REMOVE_TODO,
+    TOGGLE_TODO
+} = constants('ns', [
     'ADD_TODO',
     'REMOVE_TODO',
     'TOGGLE_TODO'
 ]);
 // {
-//   'ADD_TODO': 'todos:ADD_TODO',
-//   'REMOVE_TODO': 'todos:REMOVE_TODO'
-//   'TOGGLE_TODO': 'todos:TOGGLE_TODO'
+//   'ADD_TODO': 'ns:ADD_TODO',
+//   'REMOVE_TODO': 'ns:REMOVE_TODO'
+//   'TOGGLE_TODO': 'ns:TOGGLE_TODO'
 // }
 ```
 
-You can pass custom separator as below:
+#### Mixing with string and object types
+
 ```js
-module.exports = constants('todos', [
+const result = constants('ns', [
+    'ADD_TODO',
+    'REMOVE_TODO',
+    'TOGGLE_TODO',
+    {
+	FETCH: ['REQUEST', 'SUCCESS', 'FAILURE'],
+	EXPORT: 'REQUEST'
+    }
+]);
+// {
+//   'ADD_TODO': 'ns:ADD_TODO',
+//   'REMOVE_TODO': 'ns:REMOVE_TODO',
+//   'TOGGLE_TODO': 'ns:TOGGLE_TODO',
+//   'FETCH': {
+//     'REQUEST': 'ns:FETCH.REQUEST',
+//     'SUCCESS': 'ns:FETCH.SUCCESS',
+//     'FAILURE': 'ns:FETCH.FAILURE'
+//   },
+//   'EXPORT': 'ns:EXPORT.REQUEST'
+// }
+```
+
+#### Use a custom separator
+
+```js
+export const {
+    ADD_TODO,
+    REMOVE_TODO,
+    TOGGLE_TODO
+} = constants('ns', [
     'ADD_TODO',
     'REMOVE_TODO',
     'TOGGLE_TODO'
 ], { separator: '/' });
 // {
-//   'ADD_TODO': 'todos/ADD_TODO',
-//   'REMOVE_TODO': 'todos/REMOVE_TODO'
-//   'TOGGLE_TODO': 'todos/TOGGLE_TODO'
-// }
-```
-
-#### Transform constants
-You can pass a custom transform function as well:
-```js
-module.exports = constants('todos', [
-    'add todo',
-    'remove todo',
-    'toggle todo'
-], {
-    separator: '/',
-    transform: function (v) {
-        return v.replace(/\ /g, '_').toUpperCase();
-    }
-});
-// {
-//   'ADD_TODO': 'todos/ADD_TODO',
-//   'REMOVE_TODO': 'todos/REMOVE_TODO'
-//   'TOGGLE_TODO': 'todos/TOGGLE_TODO'
+//   'ADD_TODO': 'ns/ADD_TODO',
+//   'REMOVE_TODO': 'ns/REMOVE_TODO'
+//   'TOGGLE_TODO': 'ns/TOGGLE_TODO'
 // }
 ```
 
