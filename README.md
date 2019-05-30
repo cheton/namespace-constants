@@ -4,6 +4,8 @@
 
 Add namespace to Redux action type constants without name conflicts.
 
+![image](https://user-images.githubusercontent.com/447801/58611444-acced780-82e1-11e9-9772-69cfaebcd679.png)
+
 ## Installation
 
 ```bash
@@ -54,31 +56,6 @@ export const {
 // }
 ```
 
-#### Mixing with string and object types
-
-```js
-const result = constants('ns', [
-    'ADD_TODO',
-    'REMOVE_TODO',
-    'TOGGLE_TODO',
-    {
-	FETCH: ['REQUEST', 'SUCCESS', 'FAILURE'],
-	EXPORT: 'REQUEST'
-    }
-]);
-// {
-//   'ADD_TODO': 'ns:ADD_TODO',
-//   'REMOVE_TODO': 'ns:REMOVE_TODO',
-//   'TOGGLE_TODO': 'ns:TOGGLE_TODO',
-//   'FETCH': {
-//     'REQUEST': 'ns:FETCH.REQUEST',
-//     'SUCCESS': 'ns:FETCH.SUCCESS',
-//     'FAILURE': 'ns:FETCH.FAILURE'
-//   },
-//   'EXPORT': 'ns:EXPORT.REQUEST'
-// }
-```
-
 #### Use a custom separator
 
 ```js
@@ -95,6 +72,82 @@ export const {
 //   'ADD_TODO': 'ns/ADD_TODO',
 //   'REMOVE_TODO': 'ns/REMOVE_TODO'
 //   'TOGGLE_TODO': 'ns/TOGGLE_TODO'
+// }
+```
+
+#### Pass constant values as an array of mixed types
+
+```js
+export const {
+    ADD_TODO,
+    REMOVE_TODO,
+    TOGGLE_TODO,
+    SHOW_ALL,
+    SHOW_COMPLETED,
+    SHOW_ACTIVE,
+    FETCH,
+    EXPORT
+} = constants('ns', [
+    'ADD_TODO',
+    'REMOVE_TODO',
+    'TOGGLE_TODO',
+    ['SHOW_ALL', 'SHOW_COMPLETED', 'SHOW_ACTIVE'],
+    {
+      'FETCH': ['REQUEST', 'SUCCESS', 'FAILURE'],
+      'EXPORT': 'EXPORT'
+    }
+]);
+// {
+//   'ADD_TODO': 'ns:ADD_TODO',
+//   'REMOVE_TODO': 'ns:REMOVE_TODO',
+//   'TOGGLE_TODO': 'ns:TOGGLE_TODO',
+//   'SHOW_ALL': 'ns:SHOW_ALL',
+//   'SHOW_COMPLETED': 'ns:SHOW_COMPLETED',
+//   'SHOW_ACTIVE': 'ns:SHOW_ACTIVE',
+//   'FETCH': {
+//     'REQUEST': 'ns:FETCH.REQUEST',
+//     'SUCCESS': 'ns:FETCH.SUCCESS',
+//     'FAILURE': 'ns:FETCH.FAILURE'
+//   },
+//   'EXPORT': 'ns:EXPORT'
+// }
+```
+
+#### Pass constant values as an object of mixed types
+
+```js
+export const {
+    ADD_TODO,
+    REMOVE_TODO,
+    TOGGLE_TODO,
+    SHOW_ALL,
+    SHOW_COMPLETED,
+    SHOW_ACTIVE,
+    FETCH,
+    EXPORT
+} = constants('ns', {
+    'ADD_TODO': 'ADD_TODO',
+    'REMOVE_TODO': 'REMOVE_TODO',
+    'TOGGLE_TODO': 'TOGGLE_TODO',
+    'SHOW_ALL': 'SHOW_ALL',
+    'SHOW_COMPLETED': 'SHOW_COMPLETED',
+    'SHOW_ACTIVE': 'SHOW_ACTIVE',
+    'FETCH': ['REQUEST', 'SUCCESS', 'FAILURE'],
+    'EXPORT': 'EXPORT'
+});
+// {
+//   'ADD_TODO': 'ns:ADD_TODO',
+//   'REMOVE_TODO': 'ns:REMOVE_TODO',
+//   'TOGGLE_TODO': 'ns:TOGGLE_TODO',
+//   'SHOW_ALL': 'ns:SHOW_ALL',
+//   'SHOW_COMPLETED': 'ns:SHOW_COMPLETED',
+//   'SHOW_ACTIVE': 'ns:SHOW_ACTIVE',
+//   'FETCH': {
+//     'REQUEST': 'ns:FETCH.REQUEST',
+//     'SUCCESS': 'ns:FETCH.SUCCESS',
+//     'FAILURE': 'ns:FETCH.FAILURE'
+//   },
+//   'EXPORT': 'ns:EXPORT'
 // }
 ```
 
