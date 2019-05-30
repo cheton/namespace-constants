@@ -3,20 +3,29 @@ const defaultOptions = {
     separator: ':',
 };
 
+// Checks if `value` is object-like. A value is object-like if it's not `null` and has a `typeof` result of "object".
+const isObjectLike = (value) => (typeof value === 'object' && value !== null);
+
+// Checks if `value` is a plain object, that is, an object created by the `Object` constructor or one with a `[[Prototype]]` of `null`.
 const isPlainObject = (value) => {
-    if (!value || typeof value !== 'object' || ({}).toString.call(value) !== '[object Object]') {
+    if (!isObjectLike(value) || ({}).toString.call(value) !== '[object Object]') {
         return false;
     }
-    const proto = Object.getPrototypeOf(value);
-    if (proto === null) {
+
+    if (Object.getPrototypeOf(value) === null) {
         return true;
     }
-    const Ctor = hasOwnProperty.call(proto, 'constructor') && proto.constructor;
-    return typeof Ctor === 'function' && Ctor instanceof Ctor && Function.prototype.toString.call(Ctor) === Function.prototype.toString.call(Object);
+
+    let proto = value;
+    while (Object.getPrototypeOf(proto) !== null) {
+        proto = Object.getPrototypeOf(proto);
+    }
+
+    return Object.getPrototypeOf(value) === proto;
 };
 
 const constants = (namespace = '', values = [], options = defaultOptions) => {
-    if (Array.isArray(namespace)) {
+    if (isObjectLike(namespace)) {
         values = namespace;
         namespace = '';
     }
@@ -30,12 +39,35 @@ const constants = (namespace = '', values = [], options = defaultOptions) => {
         return value;
     };
 
-    values = values.reduce((memo, v) => {
-        if (typeof v === 'function') {
-            v = v();
-        }
+    // If the `values` is not object-like, pass an empty array to the `values`.
+    if (!isObjectLike(values)) {
+        values = [];
+    }
 
-        return memo.concat(v);
+    // If the `values` is object-like but not an array, it will be wrapped with an array.
+    //
+    // ```js
+    // {
+    //   FETCH: ['REQUEST', 'SUCCESS', 'FAILURE']
+    // }
+    // ```
+    //
+    // will be converted to:
+    //
+    // ```js
+    // [{
+    //   FETCH: ['REQUEST', 'SUCCESS', 'FAILURE']
+    // }]
+    // ```
+    if (!Array.isArray(values)) {
+        values = [values];
+    }
+
+    values = values.reduce((memo, value) => {
+        if (typeof value === 'function') {
+            value = value();
+        }
+        return memo.concat(value);
     }, []);
 
     // Prevent new properties from being added to it
@@ -47,8 +79,8 @@ const constants = (namespace = '', values = [], options = defaultOptions) => {
             //   'REMOVE_TODO',
             //   'TOGGLE_TODO',
             //   {
-            //     fetch: ['REQUEST', 'SUCCESS', 'FAILURE'],
-            //     export: ['REQUEST', 'SUCCESS', 'FAILURE'],
+            //     FETCH: ['REQUEST', 'SUCCESS', 'FAILURE'],
+            //     EXPORT: ['REQUEST', 'SUCCESS', 'FAILURE'],
             //   }
             // ], { separator: ':' });
             // ```
@@ -60,15 +92,15 @@ const constants = (namespace = '', values = [], options = defaultOptions) => {
             //   ADD_TODO: 'ns:ADD_TODO',
             //   REMOVE_TODO: 'ns:REMOVE_TODO',
             //   TOGGLE_TODO: 'ns:TOGGLE_TODO',
-            //   fetch: {
-            //     REQUEST: 'ns:fetch.REQUEST',
-            //     SUCCESS: 'ns:fetch.SUCCESS',
-            //     FAILURE: 'ns:fetch.FAILURE',
+            //   FETCH: {
+            //     REQUEST: 'ns:FETCH.REQUEST',
+            //     SUCCESS: 'ns:FETCH.SUCCESS',
+            //     FAILURE: 'ns:FETCH.FAILURE',
             //   },
-            //   export: {
-            //     REQUEST: 'ns:export.REQUEST',
-            //     SUCCESS: 'ns:export.SUCCESS',
-            //     FAILURE: 'ns:export.FAILURE',
+            //   EXPORT: {
+            //     REQUEST: 'ns:EXPORT.REQUEST',
+            //     SUCCESS: 'ns:EXPORT.SUCCESS',
+            //     FAILURE: 'ns:EXPORT.FAILURE',
             //   }
             // }
             // ```
@@ -81,7 +113,7 @@ const constants = (namespace = '', values = [], options = defaultOptions) => {
                         memo[objectKey][v] = withNamespace(`${objectKey}.${v}`);
                     });
                 } else {
-                    memo[objectKey] = withNamespace(`${objectKey}.${objectValue}`);
+                    memo[objectKey] = withNamespace(objectKey);
                 }
             });
         } else {

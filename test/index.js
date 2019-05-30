@@ -48,14 +48,14 @@ test('global constants', (t) => {
         t.end();
     });
 
-    test('an array of strings or objects', (t) => { 
+    test('an array of mixed types', (t) => { 
         const result = constants([
             'ADD_TODO',
             'REMOVE_TODO',
             'TOGGLE_TODO',
             {
                 FETCH: ['REQUEST', 'SUCCESS', 'FAILURE'],
-                EXPORT: 'REQUEST'
+                EXPORT: 'EXPORT'
             }
         ]);
         const wanted = {
@@ -67,7 +67,30 @@ test('global constants', (t) => {
                 SUCCESS: 'FETCH.SUCCESS',
                 FAILURE: 'FETCH.FAILURE'
             },
-            'EXPORT': 'EXPORT.REQUEST'
+            'EXPORT': 'EXPORT'
+        };
+        t.same(result, wanted);
+        t.end();
+    });
+
+    test('an object of mixed types', (t) => { 
+        const result = constants({
+            'ADD_TODO': 'ADD_TODO',
+            'REMOVE_TODO': 'REMOVE_TODO',
+            'TOGGLE_TODO': 'TOGGLE_TODO',
+            'FETCH': ['REQUEST', 'SUCCESS', 'FAILURE'],
+            'EXPORT': 'EXPORT'
+        });
+        const wanted = {
+            'ADD_TODO': 'ADD_TODO',
+            'REMOVE_TODO': 'REMOVE_TODO',
+            'TOGGLE_TODO': 'TOGGLE_TODO',
+            'FETCH': {
+                REQUEST: 'FETCH.REQUEST',
+                SUCCESS: 'FETCH.SUCCESS',
+                FAILURE: 'FETCH.FAILURE'
+            },
+            'EXPORT': 'EXPORT'
         };
         t.same(result, wanted);
         t.end();
@@ -134,14 +157,14 @@ test('namespace constants', (t) => {
         t.end();
     });
 
-    test('an array of strings or objects', (t) => { 
+    test('an array of mixed types', (t) => { 
         const result = constants('ns', [
             'ADD_TODO',
             'REMOVE_TODO',
             'TOGGLE_TODO',
             {
                 FETCH: ['REQUEST', 'SUCCESS', 'FAILURE'],
-                EXPORT: 'REQUEST'
+                EXPORT: 'EXPORT'
             }
         ]);
         const wanted = {
@@ -153,7 +176,30 @@ test('namespace constants', (t) => {
                 SUCCESS: 'ns:FETCH.SUCCESS',
                 FAILURE: 'ns:FETCH.FAILURE'
             },
-            'EXPORT': 'ns:EXPORT.REQUEST'
+            'EXPORT': 'ns:EXPORT'
+        };
+        t.same(result, wanted);
+        t.end();
+    });
+
+    test('an object of mixed types', (t) => { 
+        const result = constants('ns', {
+            'ADD_TODO': 'ADD_TODO',
+            'REMOVE_TODO': 'REMOVE_TODO',
+            'TOGGLE_TODO': 'TOGGLE_TODO',
+            'FETCH': ['REQUEST', 'SUCCESS', 'FAILURE'],
+            'EXPORT': 'EXPORT'
+        });
+        const wanted = {
+            'ADD_TODO': 'ns:ADD_TODO',
+            'REMOVE_TODO': 'ns:REMOVE_TODO',
+            'TOGGLE_TODO': 'ns:TOGGLE_TODO',
+            'FETCH': {
+                REQUEST: 'ns:FETCH.REQUEST',
+                SUCCESS: 'ns:FETCH.SUCCESS',
+                FAILURE: 'ns:FETCH.FAILURE'
+            },
+            'EXPORT': 'ns:EXPORT'
         };
         t.same(result, wanted);
         t.end();
