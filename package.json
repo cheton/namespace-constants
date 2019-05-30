@@ -1,6 +1,6 @@
 {
   "name": "namespace-constants",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Add namespace to Redux action type constants without name conflicts.",
   "homepage": "https://github.com/cheton/namespace-constants",
   "main": "lib/index.js",
