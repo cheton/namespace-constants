@@ -2,7 +2,7 @@
 
 [![NPM](https://nodei.co/npm/namespace-constants.png?downloads=true&stars=true)](https://www.npmjs.com/package/namespace-constants)
 
-Add namespace to Redux action type constants without name conflicts.
+Namespacing Redux action type constant values.
 
 ![image](https://user-images.githubusercontent.com/447801/58611444-acced780-82e1-11e9-9772-69cfaebcd679.png)
 
